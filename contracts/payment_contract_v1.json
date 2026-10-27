@@ -1,0 +1,39 @@
+{
+  "contract_id": "CTR-PAYMENT-001",
+  "name": "PaymentServiceContract",
+  "version": "1.0.0",
+  "service_id": "svc-payment-01",
+  "service_name": "Payment Service",
+  "endpoint": "/payment",
+  "method": "POST",
+  "description": "Primary transactional settlement endpoint for consumer order processing",
+  "request_schema": {
+    "type": "object",
+    "required": ["user_id", "amount", "currency"],
+    "properties": {
+      "user_id": { "type": "string", "description": "Customer identifier" },
+      "amount": { "type": "number", "minimum": 0.01, "description": "Payment amount in base units" },
+      "currency": { "type": "string", "enum": ["INR", "USD", "EUR", "GBP"], "description": "ISO currency code" }
+    }
+  },
+  "response_schema": {
+    "type": "object",
+    "required": ["status", "transaction_id"],
+    "properties": {
+      "status": { "type": "string", "enum": ["SUCCESS", "FAILED", "PENDING"] },
+      "transaction_id": { "type": "string" }
+    }
+  },
+  "invariants": [
+    { "id": "inv_amount_pos", "expression": "amount > 0", "description": "Amount must be strictly positive", "weight": 0.95 },
+    { "id": "inv_curr_enum", "expression": "currency in ['INR','USD','EUR','GBP']", "description": "Currency must match standard settlement list", "weight": 0.85 }
+  ],
+  "temporal_constraints": {
+    "max_latency_ms": 2000,
+    "timeout_ms": 3000
+  },
+  "resource_constraints": {
+    "min_throughput_rps": 500,
+    "max_payload_kb": 64
+  }
+}

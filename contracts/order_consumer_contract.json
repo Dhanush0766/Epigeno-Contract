@@ -1,0 +1,37 @@
+{
+  "contract_id": "CTR-ORDER-PAY-001",
+  "name": "OrderToPaymentConsumerContract",
+  "version": "1.0.0",
+  "service_id": "svc-order-01",
+  "service_name": "Order Service",
+  "target_service_id": "svc-payment-01",
+  "endpoint": "/payment",
+  "method": "POST",
+  "description": "Consumer expectations and invocation bounds for payment processing",
+  "request_schema": {
+    "type": "object",
+    "required": ["user_id", "amount", "currency"],
+    "properties": {
+      "user_id": { "type": "string" },
+      "amount": { "type": "number" },
+      "currency": { "type": "string" }
+    }
+  },
+  "response_schema": {
+    "type": "object",
+    "required": ["status", "transaction_id"],
+    "properties": {
+      "status": { "type": "string" },
+      "transaction_id": { "type": "string" }
+    }
+  },
+  "invariants": [
+    { "id": "inv_amount_pos", "expression": "amount > 0" }
+  ],
+  "temporal_constraints": {
+    "expected_timeout_ms": 2500
+  },
+  "resource_constraints": {
+    "required_throughput_rps": 400
+  }
+}

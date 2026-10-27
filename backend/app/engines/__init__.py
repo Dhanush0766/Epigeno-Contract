@@ -1,0 +1,13 @@
+from backend.app.engines.gene_extractor import extract_genes_from_contract, calculate_canonical_genotype_hash
+from backend.app.engines.genotype_manager import create_genotype, verify_genotype_integrity
+from backend.app.engines.epigenome_manager import initialize_epigenome, express_genome, update_methylation
+from backend.app.engines.pcae_engine import evaluate_pcae
+from backend.app.engines.prediction_engine import predict_failure_probability
+from backend.app.engines.gating_engine import evaluate_gate_decision
+from backend.app.engines.explanation_engine import generate_gating_explanation
+from backend.app.engines.nlp_engine import parse_nlp_command
+from backend.app.engines.ecg_ir_engine import compile_genes_to_ir
+from backend.app.engines.behavior_morphing import attempt_behavior_morph
+from backend.app.engines.quorum_sync import simulate_quorum_exchange
+from backend.app.engines.evolution_engine import generate_compatibility_proof_certificate, evaluate_candidate_evolution
+from backend.app.engines.metrics_engine import compute_all_software_metrics, calculate_ccps

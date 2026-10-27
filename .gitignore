@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+backend/.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# SQLite Databases (optional: exclude runtime db, let app initialize with fresh seeds)
+*.db-journal
+aco_ecg.db
+
+# Executables & Local Tunnels
+cloudflared.exe
+*.exe
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables & IDE
+.env
+.env.local
+.vscode/
+.idea/

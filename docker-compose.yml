@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: aco_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./aco_ecg.db
+      - ORDER_SERVICE_URL=http://order-service:8001
+      - PAYMENT_SERVICE_URL=http://payment-service:8002
+      - CORS_ORIGINS=*
+    volumes:
+      - ./backend/data:/app/data
+    networks:
+      - aco-network
+    depends_on:
+      - order-service
+      - payment-service
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: aco_frontend
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_WS_URL=ws://localhost:8000/ws/events
+    networks:
+      - aco-network
+    depends_on:
+      - backend
+
+  order-service:
+    build:
+      context: ./services/order-service
+      dockerfile: Dockerfile
+    container_name: aco_order_service
+    ports:
+      - "8001:8001"
+    environment:
+      - PAYMENT_SERVICE_URL=http://payment-service:8002
+    networks:
+      - aco-network
+
+  payment-service:
+    build:
+      context: ./services/payment-service
+      dockerfile: Dockerfile
+    container_name: aco_payment_service
+    ports:
+      - "8002:8002"
+    networks:
+      - aco-network
+
+networks:
+  aco-network:
+    driver: bridge
